@@ -4,7 +4,7 @@
  */
 #include "stm8s.h"
 
-#define ledNumber 8
+#define ledNumber 12
 #define RES 55
 
 volatile uint32_t remoteReceived=0;
@@ -22,6 +22,7 @@ void ws2812SendReset(uint8_t reset);
 void main(void)
 {
 	uint8_t i;
+	volatile uint16_t d;
 	uint32_t temp;
 	CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV1);/* Clock divider to HSI/1 */
 	CLK_PeripheralClockConfig(CLK_PERIPHERAL_TIMER1,ENABLE); /*timer1 clock enable*/
@@ -101,7 +102,7 @@ while (1){
 				currentColor=0x0000FFFF;
 			}
 			else if(cmd==0x4A){//orange color
-				currentColor=0x00F96E2A;
+				currentColor=0x00FF2000;
 			}
 			else if(cmd==0x52){//pink color
 				currentColor=0x00FF1493;
@@ -114,6 +115,7 @@ while (1){
 					ws2812SendOneLed(currentColor,percent);
 				}
 				ws2812SendReset(RES);
+				for(d=0;d<10000;d++);
 			}//end of last if
 		}//end of TrueAddress and TrueCommand
 	}//end of frame_ready
